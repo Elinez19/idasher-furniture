@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { Button } from '@/components/ui/button';
 
 export function FeatureOne() {
   return (
@@ -23,9 +24,9 @@ export function FeatureOne() {
         <p className="text-sm md:text-base mb-8 max-w-lg font-medium drop-shadow-sm">
           Whether you&apos;re seeking simplicity, functionality or a bit of both, keep the business of the day homey, too.
         </p>
-        <button className="bg-white/90 hover:bg-white text-black font-semibold tracking-wider text-xs px-8 py-3 rounded-full transition-colors uppercase">
+        <Button className="bg-white/90 hover:bg-white text-black font-semibold tracking-wider text-xs px-8 h-12 rounded-full transition-colors uppercase">
           Shop Entryway
-        </button>
+        </Button>
       </div>
     </section>
   );

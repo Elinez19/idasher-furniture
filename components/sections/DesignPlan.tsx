@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { Button } from '@/components/ui/button';
 
 export function DesignPlan() {
   return (
@@ -21,9 +22,9 @@ export function DesignPlan() {
           <p className="text-sm md:text-base font-medium mb-8 drop-shadow-sm text-gray-100">
             Complete a short form to get put in motion design.
           </p>
-          <button className="bg-white hover:bg-gray-100 text-black font-semibold tracking-wider text-xs px-8 py-3 rounded-full transition-colors uppercase shadow-md">
+          <Button className="bg-white hover:bg-gray-100 text-black font-semibold tracking-wider text-xs px-8 h-12 rounded-full transition-colors uppercase shadow-md">
             Get Started
-          </button>
+          </Button>
         </div>
       </div>
     </section>

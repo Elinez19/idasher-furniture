@@ -1,11 +1,6 @@
 import Image from 'next/image';
 import { Camera } from 'lucide-react';
-
-const posts = [
-  { img: 'https://images.unsplash.com/photo-1540518614846-7eded433c457?q=80&w=600&auto=format&fit=crop', user: 'Photo by @jessicahal' },
-  { img: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=600&auto=format&fit=crop', user: 'Photo by @smithmodernhomes' },
-  { img: 'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=600&auto=format&fit=crop', user: 'Photo by @rileyinterior' },
-];
+import { SOCIAL_PROOF_POSTS } from '@/constants/data';
 
 export function SocialProof() {
   return (
@@ -16,8 +11,8 @@ export function SocialProof() {
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {posts.map((post, i) => (
-          <div key={i} className="flex flex-col">
+        {SOCIAL_PROOF_POSTS.map((post, i) => (
+          <article key={i} className="flex flex-col">
             <div className="relative w-full aspect-square mb-3 bg-gray-100 group cursor-pointer overflow-hidden">
               <Image
                 src={post.img}
@@ -30,7 +25,7 @@ export function SocialProof() {
               </div>
             </div>
             <span className="text-xs text-gray-500 font-medium tracking-wide">{post.user}</span>
-          </div>
+          </article>
         ))}
       </div>
     </section>

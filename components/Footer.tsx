@@ -1,5 +1,8 @@
 import Link from 'next/link';
 import { Package, Camera, MessageCircle, FileVideo, Globe } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { FOOTER_LINKS } from '@/constants/data';
 
 export function Footer() {
   return (
@@ -24,52 +27,46 @@ export function Footer() {
           
           <div className="flex flex-col space-y-3">
             <h3 className="text-white font-semibold mb-2">Help</h3>
-            <Link href="#" className="hover:text-white transition-colors">Help Center</Link>
-            <Link href="#" className="hover:text-white transition-colors">Shipping</Link>
-            <Link href="#" className="hover:text-white transition-colors">Returns</Link>
-            <Link href="#" className="hover:text-white transition-colors">Product Recalls</Link>
-            <Link href="#" className="hover:text-white transition-colors">Corporate Responsibility</Link>
-            <Link href="#" className="hover:text-white transition-colors">Contact Us</Link>
+            {FOOTER_LINKS.Help.map(link => (
+              <Link key={link.label} href={link.href} className="hover:text-white transition-colors">{link.label}</Link>
+            ))}
           </div>
 
           <div className="flex flex-col space-y-3">
             <h3 className="text-white font-semibold mb-2">Explore</h3>
-            <Link href="#" className="hover:text-white transition-colors">Ideas & Inspiration</Link>
-            <Link href="#" className="hover:text-white transition-colors">Gift Cards</Link>
-            <Link href="#" className="hover:text-white transition-colors">Financing</Link>
-            <Link href="#" className="hover:text-white transition-colors">About Us</Link>
-            <Link href="#" className="hover:text-white transition-colors">Reviews</Link>
-            <Link href="#" className="hover:text-white transition-colors">Careers</Link>
-            <Link href="#" className="hover:text-white transition-colors">Press</Link>
+            {FOOTER_LINKS.Explore.map(link => (
+              <Link key={link.label} href={link.href} className="hover:text-white transition-colors">{link.label}</Link>
+            ))}
           </div>
 
           <div className="flex flex-col space-y-3">
             <h3 className="text-white font-semibold mb-2">Account</h3>
-            <Link href="#" className="hover:text-white transition-colors">Login / Register</Link>
-            <Link href="#" className="hover:text-white transition-colors">My Favorites</Link>
+            {FOOTER_LINKS.Account.map(link => (
+              <Link key={link.label} href={link.href} className="hover:text-white transition-colors">{link.label}</Link>
+            ))}
           </div>
 
           <div className="flex flex-col space-y-3">
             <h3 className="text-white font-semibold mb-2">For Professionals</h3>
-            <Link href="#" className="hover:text-white transition-colors">Article Pro</Link>
-            <Link href="#" className="hover:text-white transition-colors">Content Studio</Link>
-            <Link href="#" className="hover:text-white transition-colors">Industries We Serve</Link>
+            {FOOTER_LINKS.Professionals.map(link => (
+              <Link key={link.label} href={link.href} className="hover:text-white transition-colors">{link.label}</Link>
+            ))}
           </div>
 
           <div className="md:col-span-1">
             <h3 className="text-white font-semibold mb-4 text-sm mt-1">Get new products and promotions in your inbox.</h3>
             <form className="flex flex-col space-y-3">
-              <input 
+              <Input 
                 type="email" 
                 placeholder="Your email" 
-                className="bg-white text-black px-4 py-2 w-full focus:outline-none rounded-sm"
+                className="bg-white text-black px-4 py-2 w-full h-10 border-0 focus-visible:ring-0 rounded-sm"
               />
-              <button 
+              <Button 
                 type="submit" 
-                className="bg-[#c05c4b] hover:bg-[#a84d3e] text-white px-6 py-2 w-max transition-colors font-semibold rounded-full mt-2 text-xs tracking-wider"
+                className="bg-[#c05c4b] hover:bg-[#a84d3e] text-white px-6 py-2 h-10 w-max transition-colors font-semibold rounded-full mt-2 text-xs tracking-wider"
               >
                 SUBSCRIBE
-              </button>
+              </Button>
             </form>
           </div>
 
