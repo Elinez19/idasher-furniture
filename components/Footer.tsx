@@ -12,7 +12,7 @@ export function Footer() {
         {/* Top Section */}
         <div className="mb-12">
           <h2 className="text-3xl font-bold tracking-widest text-white mb-6 uppercase">
-            ARTICLE<span className="text-[#c05c4b]">.</span>
+            IDASHER<span className="text-[#c05c4b]">.</span>
           </h2>
           <div className="flex space-x-4">
             <a href="#" className="text-gray-400 hover:text-white transition-colors"><MessageCircle className="h-5 w-5" /></a>
@@ -79,7 +79,7 @@ export function Footer() {
           </div>
           <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4 text-center">
             <span>Terms of Use • Privacy Policy • Do Not Sell My Personal Information • Cookie Settings • Accessibility • Sitemap</span>
-            <span>Copyright © 2024 Article.com. All rights reserved.</span>
+            <span>Copyright © 2024 Idasher.com. All rights reserved.</span>
           </div>
         </div>
       </div>
