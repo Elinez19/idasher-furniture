@@ -1,4 +1,5 @@
-import Image from 'next/image';
+import Link from 'next/link';
+import { ProductImageCarousel } from '@/components/ui/product-image-carousel';
 import { TOP_SELLERS_DATA } from '@/constants/data';
 
 export function TopSellers() {
@@ -8,16 +9,16 @@ export function TopSellers() {
       
       <div className="grid grid-cols-2 lg:grid-cols-6 gap-x-4 gap-y-10">
         {TOP_SELLERS_DATA.map((product, i) => (
-          <article key={i} className="group cursor-pointer">
-            <div className="relative w-full aspect-square mb-4 bg-gray-100 overflow-hidden mix-blend-multiply">
-              <Image
-                src={product.image}
-                alt={product.name}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500 rounded-sm"
-              />
-            </div>
-            <h3 className="text-xs text-gray-800 leading-relaxed font-medium group-hover:underline pr-2">{product.name}</h3>
+          <article key={i} className="group">
+            <Link href={product.link} className="block">
+              <div className="relative w-full aspect-square mb-4 bg-gray-100 overflow-hidden mix-blend-multiply">
+                <ProductImageCarousel 
+                  images={product.images || [product.image]} 
+                  alt={product.name} 
+                />
+              </div>
+              <h3 className="text-xs text-gray-800 leading-relaxed font-medium group-hover:underline pr-2">{product.name}</h3>
+            </Link>
           </article>
         ))}
       </div>

@@ -1,24 +1,17 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import Image from 'next/image';
-import { ShoppingCart, Heart, ChevronDown, ChevronUp, Star, SlidersHorizontal, X } from 'lucide-react';
+import { useState } from 'react';
+import Link from 'next/link';
+import { ShoppingCart, Heart, SlidersHorizontal, X } from 'lucide-react';
 import type { RoomProduct } from '@/constants/data';
+import { useProductFilters } from '@/hooks/use-product-filters';
+import { ProductImageCarousel } from '@/components/ui/product-image-carousel';
+import { StarRating } from '@/components/ui/star-rating';
+import { FilterAccordion } from '@/components/ui/filter-accordion';
+import { slugify } from '@/lib/utils';
 
 type Props = {
   products: RoomProduct[];
-  roomName: string;
-};
-
-type FilterState = {
-  categories: string[];
-  materials: string[];
-  styles: string[];
-  colors: string[];
-  priceMin: number;
-  priceMax: number;
-  onSale: boolean;
-  inStock: boolean;
 };
 
 const PRICE_RANGES = [
@@ -29,100 +22,29 @@ const PRICE_RANGES = [
   { label: 'Over $2,000', min: 2000, max: Infinity },
 ];
 
-function StarRating({ rating, count }: { rating: number; count: number }) {
-  return (
-    <div className="flex items-center gap-1 mt-1">
-      {[1, 2, 3, 4, 5].map((s) => (
-        <Star
-          key={s}
-          className={`h-3 w-3 ${s <= Math.round(rating) ? 'fill-[#c4a882] text-[#c4a882]' : 'text-gray-300 fill-gray-200'}`}
-        />
-      ))}
-      <span className="text-[11px] text-gray-500 ml-0.5">({count})</span>
-    </div>
-  );
-}
+export default function ProductGridClient({ products }: Props) {
+  const {
+    filters,
+    setFilters,
+    sortBy,
+    setSortBy,
+    wishlist,
+    toggleWishlist,
+    allCategories,
+    allMaterials,
+    allStyles,
+    allColors,
+    toggleCategory,
+    toggleMaterial,
+    toggleStyle,
+    toggleColor,
+    setPriceRange,
+    clearAll,
+    activeFilterCount,
+    filteredProducts,
+  } = useProductFilters(products);
 
-function FilterAccordion({ title, children, defaultOpen = true }: { title: string; children: React.ReactNode; defaultOpen?: boolean }) {
-  const [open, setOpen] = useState(defaultOpen);
-  return (
-    <div className="border-b border-gray-100 py-4">
-      <button
-        onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between text-sm font-semibold text-[#1a1a1a] uppercase tracking-wider hover:text-[#c05c4b] transition-colors"
-      >
-        {title}
-        {open ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-      </button>
-      {open && <div className="mt-3">{children}</div>}
-    </div>
-  );
-}
-
-export default function ProductGridClient({ products, roomName }: Props) {
-  const [filters, setFilters] = useState<FilterState>({
-    categories: [],
-    materials: [],
-    styles: [],
-    colors: [],
-    priceMin: 0,
-    priceMax: Infinity,
-    onSale: false,
-    inStock: false,
-  });
-  const [sortBy, setSortBy] = useState('featured');
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [wishlist, setWishlist] = useState<number[]>([]);
-
-  // Derive unique filter values
-  const allCategories = useMemo(() => [...new Set(products.map((p) => p.category).filter(Boolean))] as string[], [products]);
-  const allMaterials = useMemo(() => [...new Set(products.map((p) => p.material).filter(Boolean))] as string[], [products]);
-  const allStyles = useMemo(() => [...new Set(products.map((p) => p.style).filter(Boolean))] as string[], [products]);
-  const allColors = useMemo(() => {
-    const map = new Map<string, string>();
-    products.forEach((p) => p.colors?.forEach((c) => map.set(c.name, c.hex)));
-    return [...map.entries()].map(([name, hex]) => ({ name, hex }));
-  }, [products]);
-
-  // Toggle array filter
-  function toggleArr<T>(arr: T[], val: T): T[] {
-    return arr.includes(val) ? arr.filter((x) => x !== val) : [...arr, val];
-  }
-
-  const toggleCategory = (v: string) => setFilters((f) => ({ ...f, categories: toggleArr(f.categories, v) }));
-  const toggleMaterial = (v: string) => setFilters((f) => ({ ...f, materials: toggleArr(f.materials, v) }));
-  const toggleStyle = (v: string) => setFilters((f) => ({ ...f, styles: toggleArr(f.styles, v) }));
-  const toggleColor = (v: string) => setFilters((f) => ({ ...f, colors: toggleArr(f.colors, v) }));
-  const setPriceRange = (min: number, max: number) =>
-    setFilters((f) => ({ ...f, priceMin: f.priceMin === min && f.priceMax === max ? 0 : min, priceMax: f.priceMin === min && f.priceMax === max ? Infinity : max }));
-
-  const clearAll = () =>
-    setFilters({ categories: [], materials: [], styles: [], colors: [], priceMin: 0, priceMax: Infinity, onSale: false, inStock: false });
-
-  const activeFilterCount =
-    filters.categories.length + filters.materials.length + filters.styles.length + filters.colors.length +
-    (filters.priceMin > 0 || filters.priceMax < Infinity ? 1 : 0) +
-    (filters.onSale ? 1 : 0) + (filters.inStock ? 1 : 0);
-
-  const filteredProducts = useMemo(() => {
-    let list = products.filter((p) => {
-      if (filters.categories.length && !filters.categories.includes(p.category ?? '')) return false;
-      if (filters.materials.length && !filters.materials.includes(p.material ?? '')) return false;
-      if (filters.styles.length && !filters.styles.includes(p.style ?? '')) return false;
-      if (filters.colors.length && !p.colors?.some((c) => filters.colors.includes(c.name))) return false;
-      if (p.price < filters.priceMin || p.price > filters.priceMax) return false;
-      if (filters.onSale && !p.originalPrice) return false;
-      return true;
-    });
-
-    switch (sortBy) {
-      case 'price-asc': list = [...list].sort((a, b) => a.price - b.price); break;
-      case 'price-desc': list = [...list].sort((a, b) => b.price - a.price); break;
-      case 'newest': list = [...list].sort((a) => (a.badge === 'New' ? -1 : 1)); break;
-      case 'rating': list = [...list].sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0)); break;
-    }
-    return list;
-  }, [products, filters, sortBy]);
 
   const sidebarContent = (
     <aside className="w-full">
@@ -143,14 +65,18 @@ export default function ProductGridClient({ products, roomName }: Props) {
             className={`w-4 h-4 border rounded-sm flex items-center justify-center transition-colors ${filters.onSale ? 'bg-[#1a1a1a] border-[#1a1a1a]' : 'border-gray-300 group-hover:border-[#1a1a1a]'}`}
             onClick={() => setFilters((f) => ({ ...f, onSale: !f.onSale }))}
           >
-            {filters.onSale && <svg className="h-2.5 w-2.5 text-white" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>}
+            {filters.onSale && (
+              <svg className="h-2.5 w-2.5 text-white" viewBox="0 0 10 8" fill="none">
+                <path d="M1 4l3 3 5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            )}
           </div>
           <span className="text-sm text-gray-700">On Sale</span>
         </label>
       </div>
 
       {/* Price */}
-      <FilterAccordion title="Price">
+      <FilterAccordion title="Price" defaultOpen={true}>
         <div className="space-y-2">
           {PRICE_RANGES.map((r) => (
             <label key={r.label} className="flex items-center gap-2.5 cursor-pointer group">
@@ -159,7 +85,9 @@ export default function ProductGridClient({ products, roomName }: Props) {
                 onClick={() => setPriceRange(r.min, r.max)}
               >
                 {filters.priceMin === r.min && filters.priceMax === r.max && (
-                  <svg className="h-2.5 w-2.5 text-white" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  <svg className="h-2.5 w-2.5 text-white" viewBox="0 0 10 8" fill="none">
+                    <path d="M1 4l3 3 5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                 )}
               </div>
               <span className="text-sm text-gray-700">{r.label}</span>
@@ -169,31 +97,37 @@ export default function ProductGridClient({ products, roomName }: Props) {
       </FilterAccordion>
 
       {/* Color */}
-      <FilterAccordion title="Color">
-        <div className="flex flex-wrap gap-2">
-          {allColors.map((c) => (
-            <button
-              key={c.name}
-              title={c.name}
-              onClick={() => toggleColor(c.name)}
-              className={`relative w-6 h-6 rounded-full border-2 transition-all ${filters.colors.includes(c.name) ? 'border-[#1a1a1a] scale-110 shadow-md' : 'border-transparent hover:border-gray-300'}`}
-              style={{ backgroundColor: c.hex }}
-            >
-              {filters.colors.includes(c.name) && (
-                <span className="absolute inset-0 flex items-center justify-center">
-                  <svg className="h-3 w-3 text-white drop-shadow" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+      <FilterAccordion title="Color" defaultOpen={true}>
+        <div className="grid grid-cols-1 gap-y-3">
+          {allColors.slice(0, 10).map((c) => {
+            const active = filters.colors.includes(c.name);
+            return (
+              <button
+                key={c.name}
+                onClick={() => toggleColor(c.name)}
+                className="flex items-center gap-2.5 group text-left transition-all"
+              >
+                <div
+                  className={`w-4 h-4 rounded-full border border-gray-100 flex items-center justify-center transition-all ${active ? 'scale-110 shadow-sm ring-1 ring-[#1a1a1a]' : 'group-hover:ring-1 group-hover:ring-gray-300'}`}
+                  style={{ backgroundColor: c.hex }}
+                >
+                  {active && (
+                    <svg className="h-2 w-2 text-white drop-shadow-sm" viewBox="0 0 10 8" fill="none">
+                      <path d="M1 4l3 3 5-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
+                </div>
+                <span className={`text-[13px] tracking-tight transition-colors truncate ${active ? 'font-semibold text-[#1a1a1a]' : 'text-gray-600 group-hover:text-[#1a1a1a]'}`}>
+                  {c.name}
                 </span>
-              )}
-            </button>
-          ))}
+              </button>
+            );
+          })}
         </div>
-        {filters.colors.length > 0 && (
-          <p className="text-xs text-gray-500 mt-2">{filters.colors.join(', ')}</p>
-        )}
       </FilterAccordion>
 
       {/* Category */}
-      <FilterAccordion title="Category">
+      <FilterAccordion title="Category" defaultOpen={true}>
         <div className="space-y-2">
           {allCategories.map((cat) => {
             const count = products.filter((p) => p.category === cat).length;
@@ -279,7 +213,9 @@ export default function ProductGridClient({ products, roomName }: Props) {
             <SlidersHorizontal className="h-4 w-4" />
             Filters
             {activeFilterCount > 0 && (
-              <span className="bg-[#1a1a1a] text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">{activeFilterCount}</span>
+              <span className="bg-[#1a1a1a] text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                {activeFilterCount}
+              </span>
             )}
           </button>
           <p className="text-sm text-gray-500">
@@ -294,7 +230,11 @@ export default function ProductGridClient({ products, roomName }: Props) {
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
             className="border border-gray-200 rounded-sm bg-white px-3 py-1.5 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#1a1a1a] appearance-none pr-8"
-            style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 10px center' }}
+            style={{ 
+              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`, 
+              backgroundRepeat: 'no-repeat', 
+              backgroundPosition: 'right 10px center' 
+            }}
           >
             <option value="featured">Featured</option>
             <option value="price-asc">Price: Low to High</option>
@@ -369,15 +309,15 @@ export default function ProductGridClient({ products, roomName }: Props) {
                 const isWishlisted = wishlist.includes(product.id);
                 return (
                   <article key={product.id} className="group">
-                    {/* Image */}
-                    <div className="relative aspect-4/3 w-full overflow-hidden bg-gray-100 mb-3">
-                      <Image
-                        src={product.image}
-                        alt={product.name}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      {/* Badge */}
+                    {/* Image Carousel */}
+                    <div className="mb-3 relative">
+                      <Link href={`/product/${product.id}-${slugify(product.name)}`}>
+                        <ProductImageCarousel 
+                          images={product.images || [product.image]} 
+                          alt={product.name} 
+                        />
+                      </Link>
+                      {/* Badge (moved outside for overlay logic if needed, but currently in carousel) */}
                       {product.badge && (
                         <span
                           className={`absolute top-2 left-2 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 z-10
@@ -391,14 +331,14 @@ export default function ProductGridClient({ products, roomName }: Props) {
                       )}
                       {/* Wishlist */}
                       <button
-                        onClick={() => setWishlist((w) => isWishlisted ? w.filter((id) => id !== product.id) : [...w, product.id])}
+                        onClick={() => toggleWishlist(product.id)}
                         className={`absolute top-2 right-2 w-7 h-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition-all duration-200 z-10 ${isWishlisted ? 'text-[#c05c4b]' : 'text-gray-400 hover:text-[#c05c4b]'}`}
                       >
                         <Heart className={`h-3.5 w-3.5 ${isWishlisted ? 'fill-[#c05c4b]' : ''}`} />
                       </button>
                       {/* Add to Cart hover */}
-                      <div className="absolute bottom-0 inset-x-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-                        <button className="w-full bg-[#1a1a1a] text-white text-xs font-semibold py-2.5 flex items-center justify-center gap-1.5 hover:bg-[#c05c4b] transition-colors">
+                      <div className="absolute bottom-2 inset-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-30">
+                        <button className="w-full bg-[#1a1a1a] text-white text-[11px] font-semibold py-2 flex items-center justify-center gap-1.5 hover:bg-[#c05c4b] transition-colors rounded-sm shadow-lg">
                           <ShoppingCart className="h-3.5 w-3.5" />
                           Add to Cart
                         </button>
@@ -423,9 +363,11 @@ export default function ProductGridClient({ products, roomName }: Props) {
                     )}
 
                     {/* Info */}
-                    <h3 className="text-[13px] font-medium text-[#1a1a1a] leading-snug group-hover:underline line-clamp-2 cursor-pointer">
-                      {product.name}
-                    </h3>
+                    <Link href={`/product/${product.id}-${slugify(product.name)}`}>
+                      <h3 className="text-[13px] font-medium text-[#1a1a1a] leading-snug hover:underline line-clamp-2 cursor-pointer">
+                        {product.name}
+                      </h3>
+                    </Link>
                     {product.rating && <StarRating rating={product.rating} count={product.reviewCount ?? 0} />}
                     <div className="flex items-center gap-2 mt-1">
                       {product.originalPrice && (
