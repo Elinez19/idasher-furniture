@@ -18,11 +18,11 @@ export function FeatureGrid() {
           <div className="absolute inset-x-0 top-[20%] flex flex-col items-center justify-center text-center px-6 text-white text-shadow-sm">
             <h3 className="text-2xl md:text-3xl font-bold mb-3 drop-shadow-md">Everybody wants these.</h3>
             <p className="text-sm font-medium mb-6 drop-shadow-md">If you have it, they are asking to sit in the empty space in our warehouse.</p>
-            <Link href="/rooms/living-room" passHref legacyBehavior>
-              <Button asChild className="bg-white hover:bg-gray-100 text-black font-semibold text-xs px-8 h-12 rounded-full transition-colors uppercase tracking-widest shadow-md">
-                <span>Shop Best Sellers</span>
-              </Button>
-            </Link>
+            <Button asChild className="bg-white hover:bg-gray-100 text-black font-semibold text-xs px-8 h-12 rounded-full transition-colors uppercase tracking-widest shadow-md">
+              <Link href="/rooms/living-room">
+                Shop Best Sellers
+              </Link>
+            </Button>
           </div>
         </article>
 
@@ -38,11 +38,11 @@ export function FeatureGrid() {
           <div className="absolute inset-x-0 top-[20%] flex flex-col items-center justify-center text-center px-6 text-white text-shadow-sm">
             <h3 className="text-2xl md:text-3xl font-bold mb-3 drop-shadow-md">Put it all on the table.</h3>
             <p className="text-sm font-medium mb-6 drop-shadow-md">We focus on look good and hold your things.</p>
-            <Link href="/rooms/living-room" passHref legacyBehavior>
-              <Button asChild className="bg-white hover:bg-gray-100 text-black font-semibold text-xs px-8 h-12 rounded-full transition-colors uppercase tracking-widest shadow-md">
-                <span>Shop Side Tables</span>
-              </Button>
-            </Link>
+            <Button asChild className="bg-white hover:bg-gray-100 text-black font-semibold text-xs px-8 h-12 rounded-full transition-colors uppercase tracking-widest shadow-md">
+              <Link href="/rooms/living-room">
+                Shop Side Tables
+              </Link>
+            </Button>
           </div>
         </article>
       </div>

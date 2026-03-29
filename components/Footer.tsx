@@ -75,11 +75,11 @@ export function Footer() {
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
           <div className="flex items-center space-x-2 mb-4 md:mb-0">
-            <span className="flex items-center"><Package className="h-4 w-4 mr-1"/> USA/CA</span>
+            <span className="flex items-center"><Package className="h-4 w-4 mr-1"/> Abuja, Nigeria</span>
           </div>
           <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4 text-center">
             <span>Terms of Use • Privacy Policy • Do Not Sell My Personal Information • Cookie Settings • Accessibility • Sitemap</span>
-            <span>Copyright © 2024 Idasher.com. All rights reserved.</span>
+            <span>Copyright © {new Date().getFullYear()} Idasher.com. All rights reserved.</span>
           </div>
         </div>
       </div>

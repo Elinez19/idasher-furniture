@@ -1,81 +1,316 @@
 export type NavSubItem = { label: string; href: string; description?: string };
+export type FeaturedItem = { label: string; href: string; image: string };
 export type NavItem = {
   label: string;
   href: string;
   className?: string;
   children?: NavSubItem[];
+  columns?: { label?: string; links: NavSubItem[] }[];
+  featured?: { label: string; href: string; image: string }[];
 };
 
 export const NAV_LINKS: NavItem[] = [
   {
-    label: 'Rooms',
-    href: '#',
-    children: [
-      { label: 'Living Room', href: '/rooms/living-room', description: 'Sofas, tables & more' },
-      { label: 'Bedroom', href: '/rooms/bedroom', description: 'Beds, dressers & nightstands' },
-      { label: 'Dining Room', href: '/rooms/dining-room', description: 'Tables, chairs & buffets' },
-      { label: 'Home Office', href: '/rooms/home-office', description: 'Desks, shelves & seating' },
-      { label: 'Outdoor', href: '/rooms/outdoor', description: 'Patio & garden furniture' },
+    label: 'New',
+    href: '/rooms/living-room',
+    columns: [
+      {
+        links: [
+          { label: 'New Arrivals', href: '/rooms/living-room' },
+          { label: 'Designed for Living', href: '/rooms/living-room' },
+          { label: 'Worth Coming Home To', href: '/rooms/living-room' },
+        ]
+      },
+      {
+        links: [
+          { label: 'Curated by Steve Cordony', href: '/rooms/living-room' },
+          { label: 'New & Ready to Ship', href: '/rooms/living-room' },
+        ]
+      }
     ],
+    featured: [
+      { 
+        label: 'New Arrivals', 
+        href: '/rooms/living-room', 
+        image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=600&auto=format&fit=crop' 
+      },
+      { 
+        label: 'Designed for Living', 
+        href: '/rooms/living-room', 
+        image: 'https://images.unsplash.com/photo-1540518614846-7eded433c457?q=80&w=600&auto=format&fit=crop' 
+      },
+      { 
+        label: 'Curated by Steve Cordony', 
+        href: '/rooms/living-room', 
+        image: 'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=600&auto=format&fit=crop' 
+      },
+    ]
   },
   {
-    label: 'Products',
+    label: 'Sofas',
+    href: '/rooms/living-room',
+    columns: [
+      {
+        links: [
+          { label: 'All Sofas', href: '/rooms/living-room' },
+          { label: 'Sectionals', href: '/rooms/living-room' },
+          { label: 'Sleeper Sofas', href: '/rooms/living-room' },
+        ]
+      },
+      {
+        links: [
+          { label: 'Loveseats', href: '/rooms/living-room' },
+          { label: 'Modular Sectionals', href: '/rooms/living-room' },
+          { label: 'Leather Sofas', href: '/rooms/living-room' },
+        ]
+      }
+    ],
+    featured: [
+      { 
+        label: 'The Sven Collection', 
+        href: '/rooms/living-room', 
+        image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=600&auto=format&fit=crop' 
+      },
+      { 
+        label: 'Modular Living', 
+        href: '/rooms/living-room', 
+        image: 'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=600&auto=format&fit=crop' 
+      },
+      { 
+        label: 'Velvet Comfort', 
+        href: '/rooms/living-room', 
+        image: 'https://images.unsplash.com/photo-1550254478-ead40cc54513?q=80&w=600&auto=format&fit=crop' 
+      },
+    ]
+  },
+  { 
+    label: 'Tables', 
+    href: '/rooms/living-room',
+    columns: [
+      {
+        links: [
+          { label: 'Coffee Tables', href: '/rooms/living-room' },
+          { label: 'Dining Tables', href: '/rooms/dining-room' },
+          { label: 'Side Tables', href: '/rooms/living-room' },
+        ]
+      },
+      {
+        links: [
+          { label: 'Console Tables', href: '/rooms/living-room' },
+          { label: 'Nightstands', href: '/rooms/bedroom' },
+          { label: 'Desks', href: '/rooms/home-office' },
+        ]
+      }
+    ],
+    featured: [
+      { 
+        label: 'Natural Wood', 
+        href: '/rooms/living-room', 
+        image: 'https://images.unsplash.com/photo-1567016432779-094069958ea5?q=80&w=600&auto=format&fit=crop' 
+      },
+      { 
+        label: 'Marble Surfaces', 
+        href: '/rooms/living-room', 
+        image: 'https://images.unsplash.com/photo-1583209814683-c023dd293cc6?q=80&w=600&auto=format&fit=crop' 
+      },
+      { 
+        label: 'Modern Dining', 
+        href: '/rooms/dining-room', 
+        image: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?q=80&w=600&auto=format&fit=crop' 
+      },
+    ]
+  },
+  { 
+    label: 'Chairs', 
+    href: '/rooms/living-room',
+    columns: [
+      {
+        links: [
+          { label: 'Dining Chairs', href: '/rooms/dining-room' },
+          { label: 'Armchairs', href: '/rooms/living-room' },
+          { label: 'Office Chairs', href: '/rooms/home-office' },
+        ]
+      },
+      {
+        links: [
+          { label: 'Stools', href: '/rooms/living-room' },
+          { label: 'Benches', href: '/rooms/living-room' },
+          { label: 'Ottomans', href: '/rooms/living-room' },
+        ]
+      }
+    ],
+    featured: [
+      { 
+        label: 'Accent Seating', 
+        href: '/rooms/living-room', 
+        image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=600&auto=format&fit=crop' 
+      },
+      { 
+        label: 'Dining Style', 
+        href: '/rooms/dining-room', 
+        image: 'https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?q=80&w=600&auto=format&fit=crop' 
+      },
+    ]
+  },
+  { 
+    label: 'Beds', 
+    href: '/rooms/bedroom',
+    columns: [
+      {
+        links: [
+          { label: 'All Beds', href: '/rooms/bedroom' },
+          { label: 'Upholstered Beds', href: '/rooms/bedroom' },
+          { label: 'Storage Beds', href: '/rooms/bedroom' },
+        ]
+      },
+      {
+        links: [
+          { label: 'King Beds', href: '/rooms/bedroom' },
+          { label: 'Queen Beds', href: '/rooms/bedroom' },
+          { label: 'Twin Beds', href: '/rooms/bedroom' },
+        ]
+      }
+    ],
+    featured: [
+      { 
+        label: 'Dreamy Comfort', 
+        href: '/rooms/bedroom', 
+        image: 'https://images.unsplash.com/photo-1505693314120-0d443867891c?q=80&w=600&auto=format&fit=crop' 
+      },
+      { 
+        label: 'Modern Frames', 
+        href: '/rooms/bedroom', 
+        image: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=600&auto=format&fit=crop' 
+      },
+    ]
+  },
+  { 
+    label: 'Storage', 
+    href: '/rooms/living-room',
+    columns: [
+      {
+        links: [
+          { label: 'Dressers', href: '/rooms/bedroom' },
+          { label: 'Sideboards', href: '/rooms/living-room' },
+          { label: 'Bookshelves', href: '/rooms/living-room' },
+        ]
+      },
+      {
+        links: [
+          { label: 'TV Stands', href: '/rooms/living-room' },
+          { label: 'Cabinets', href: '/rooms/living-room' },
+          { label: 'Pantry Storage', href: '/rooms/dining-room' },
+        ]
+      }
+    ],
+    featured: [
+      { 
+        label: 'Organized Living', 
+        href: '/rooms/living-room', 
+        image: 'https://images.unsplash.com/photo-1595514535316-2c5957badd7d?q=80&w=600&auto=format&fit=crop' 
+      },
+      { 
+        label: 'Minimalist Storage', 
+        href: '/rooms/living-room', 
+        image: 'https://images.unsplash.com/photo-1495433324511-bf8e92934d90?q=80&w=600&auto=format&fit=crop' 
+      },
+    ]
+  },
+  { 
+    label: 'Furniture Sets', 
+    href: '/rooms/living-room',
+    columns: [
+      {
+        links: [
+          { label: 'Living Room Sets', href: '/rooms/living-room' },
+          { label: 'Dining Sets', href: '/rooms/dining-room' },
+          { label: 'Bedroom Sets', href: '/rooms/bedroom' },
+        ]
+      },
+      {
+        links: [
+          { label: 'Outdoor Sets', href: '/rooms/outdoor' },
+          { label: 'Office Sets', href: '/rooms/home-office' },
+        ]
+      }
+    ],
+    featured: [
+      { 
+        label: 'Curated Sets', 
+        href: '/rooms/living-room', 
+        image: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=600&auto=format&fit=crop' 
+      },
+    ]
+  },
+  { 
+    label: 'Outdoor', 
+    href: '/rooms/outdoor',
+    columns: [
+      {
+        links: [
+          { label: 'Outdoor Sofas', href: '/rooms/outdoor' },
+          { label: 'Outdoor Dining', href: '/rooms/outdoor' },
+          { label: 'Outdoor Chairs', href: '/rooms/outdoor' },
+        ]
+      },
+      {
+        links: [
+          { label: 'Fire Pits', href: '/rooms/outdoor' },
+          { label: 'Umbrellas', href: '/rooms/outdoor' },
+          { label: 'Planters', href: '/rooms/outdoor' },
+        ]
+      }
+    ],
+    featured: [
+      { 
+        label: 'Patio Paradise', 
+        href: '/rooms/outdoor', 
+        image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600&auto=format&fit=crop' 
+      },
+    ]
+  },
+  { 
+    label: 'Accessories', 
+    href: '/rooms/decor',
+    columns: [
+      {
+        links: [
+          { label: 'Rugs', href: '/rooms/decor' },
+          { label: 'Pillows', href: '/rooms/decor' },
+          { label: 'Lighting', href: '/rooms/decor' },
+        ]
+      },
+      {
+        links: [
+          { label: 'Mirrors', href: '/rooms/decor' },
+          { label: 'Decor', href: '/rooms/decor' },
+          { label: 'Textiles', href: '/rooms/decor' },
+        ]
+      }
+    ],
+    featured: [
+      { 
+        label: 'Soft Touches', 
+        href: '/rooms/decor', 
+        image: 'https://images.unsplash.com/photo-1513161455079-7dc1de15ef3e?q=80&w=600&auto=format&fit=crop' 
+      },
+      { 
+        label: 'Ambient Light', 
+        href: '/rooms/decor', 
+        image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop' 
+      },
+    ]
+  },
+  { 
+    label: 'Tools', 
     href: '#',
     children: [
-      { label: 'Sofas & Sectionals', href: '#' },
-      { label: 'Chairs & Armchairs', href: '#' },
-      { label: 'Coffee Tables', href: '#' },
-      { label: 'Beds & Headboards', href: '#' },
-      { label: 'Dressers & Storage', href: '#' },
-      { label: 'Dining Tables', href: '#' },
-      { label: 'Rugs & Pillows', href: '#' },
-    ],
+      { label: 'Assembly Tools', href: '#', description: 'Everything you need to build your furniture.' },
+      { label: 'Care Kits', href: '#', description: 'Keep your furniture looking new.' },
+      { label: 'Swatches', href: '#', description: 'Order fabric and leather samples.' },
+    ]
   },
-  {
-    label: 'Outdoor',
-    href: '#',
-    children: [
-      { label: 'Outdoor Sofas', href: '#' },
-      { label: 'Outdoor Dining', href: '#' },
-      { label: 'Lounge Chairs', href: '#' },
-      { label: 'Outdoor Tables', href: '#' },
-    ],
-  },
-  {
-    label: 'Decor',
-    href: '#',
-    children: [
-      { label: 'Lighting', href: '#' },
-      { label: 'Mirrors', href: '#' },
-      { label: 'Vases & Planters', href: '#' },
-      { label: 'Throw Pillows', href: '#' },
-      { label: 'Rugs', href: '#' },
-    ],
-  },
-  {
-    label: 'Collections',
-    href: '#',
-    children: [
-      { label: 'Mid-Century Modern', href: '#' },
-      { label: 'Scandinavian', href: '#' },
-      { label: 'Industrial', href: '#' },
-      { label: 'Boho Chic', href: '#' },
-      { label: 'View All Collections', href: '#' },
-    ],
-  },
-  { label: 'Best Sellers', href: '#' },
-  { label: 'New Arrivals', href: '#' },
-  {
-    label: 'Ideas',
-    href: '#',
-    children: [
-      { label: 'Room Inspiration', href: '#' },
-      { label: 'Style Guides', href: '#' },
-      { label: 'Gift Cards', href: '#' },
-    ],
-  },
-  { label: 'Idasher Pro', href: '#' },
-  { label: 'Sale', href: '#', className: 'text-[#a54334] hover:text-[#8a382c]' },
+  { label: 'Sale', href: '/rooms/living-room', className: 'text-[#a54334] hover:text-[#8a382c]' },
 ];
 
 export type ColorSwatch = {

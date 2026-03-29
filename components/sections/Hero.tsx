@@ -28,11 +28,11 @@ export function Hero() {
         <p className="text-base md:text-lg mb-8 max-w-2xl font-medium drop-shadow-sm text-gray-100">
           Whatever you choose to sit—or not sit—on, now—there&apos;s a seat for you.
         </p>
-        <Link href="/rooms/living-room" passHref legacyBehavior>
-          <Button asChild className="bg-white hover:bg-gray-100 text-black font-semibold tracking-wider text-xs px-8 h-12 rounded-full transition-colors uppercase shadow-md">
-            <span>Shop Upholstered Seating</span>
-          </Button>
-        </Link>
+        <Button asChild className="bg-white hover:bg-gray-100 text-black font-semibold tracking-wider text-xs px-8 h-12 rounded-full transition-colors uppercase shadow-md">
+          <Link href="/rooms/living-room">
+            Shop Upholstered Seating
+          </Link>
+        </Button>
       </div>
     </section>
   );
