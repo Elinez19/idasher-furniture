@@ -12,6 +12,7 @@ import { slugify } from '@/lib/utils';
 
 type Props = {
   products: RoomProduct[];
+  roomName?: string;
 };
 
 const PRICE_RANGES = [
@@ -22,7 +23,7 @@ const PRICE_RANGES = [
   { label: 'Over $2,000', min: 2000, max: Infinity },
 ];
 
-export default function ProductGridClient({ products }: Props) {
+export default function ProductGridClient({ products, roomName }: Props) {
   const {
     filters,
     setFilters,
